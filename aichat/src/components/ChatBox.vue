@@ -1,78 +1,84 @@
-
 <template>
-    <div class="chatbox-container">
-<div class="container">
-  <h1>Ai Chat Bot</h1>
-<div class="messageBox mt-8">
-  <template v-for="(message, index) in messages" :key="index">
-    <div :class="message.from == 'user' ? 'messageFromUser' : 'messageFromChatGpt'">
-      <div :class="message.from == 'user' ? 'userMessageWrapper' : 'chatGptMessageWrapper'">
-        <div :class="message.from == 'user' ? 'userMessageContent' : 'chatGptMessageContent'">{{ message.data }}</div>
+  <div class="chatbox-container">
+    <div class="container">
+      <h1>Ai Chat Bot</h1>
+      <div class="messageBox mt-8">
+        <template v-for="(message, index) in messages" :key="index">
+          <div
+            :class="
+              message.from == 'user' ? 'messageFromUser' : 'messageFromChatGpt'
+            "
+          >
+            <div
+              :class="
+                message.from == 'user'
+                  ? 'userMessageWrapper'
+                  : 'chatGptMessageWrapper'
+              "
+            >
+              <div
+                :class="
+                  message.from == 'user'
+                    ? 'userMessageContent'
+                    : 'chatGptMessageContent'
+                "
+              >
+                {{ message.data }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="inputContainer">
+        <input
+          v-model="currentMessage"
+          type="text"
+          class="messageInput"
+          placeholder="Pregunta lo que quieras..."
+        />
+        <button @click="sendMessage(currentMessage)" class="askButton">
+          Enviar
+        </button>
       </div>
     </div>
-  </template>
-</div>
-<div class="inputContainer">
-  <input
-    v-model="currentMessage"
-    type="text"
-    class="messageInput"
-    placeholder="Ask me anything..."
-  />
-  <button
-    @click="sendMessage(currentMessage)"
-    class="askButton"
-  >
-    Ask
-  </button>
-</div>
-</div>
-</div>
+  </div>
 </template>
 
-
-
-
-
-
-
-
-
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'ChatBox',
+  name: "ChatBox",
   data() {
     return {
-      currentMessage: '',
+      currentMessage: "",
       messages: [],
     };
   },
   methods: {
     async sendMessage(message) {
       this.messages.push({
-        from: 'user',
+        from: "user",
         data: message,
       });
       await axios
-        .post('http://localhost:3000/chatbot', {
+        .post("http://localhost:3000/chatbot", {
           message: message,
         })
-       .then((response) => {
-  this.messages.push({
-    from: 'chatGpt',
-    data: response.data.data, // Access the 'data' property of the response object
-  });
-});
-
+        .then((response) => {
+          this.messages.push({
+            from: "chatGpt",
+            data: response.data.data, // Access the 'data' property of the response object
+          });
+        });
+      this.currentMessage = "";
     },
   },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 .chatbox-container {
   position: fixed;
@@ -86,11 +92,11 @@ export default {
   height: 600px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 h1 {
@@ -115,9 +121,8 @@ h1 {
 
 .messageFromUser,
 .messageFromChatGpt {
-  display: flex; }
-
-
+  display: flex;
+}
 
 .messageBox {
   max-height: 400px;
@@ -159,13 +164,13 @@ h1 {
 }
 
 .userMessageContent {
-  background-color: #1877F2;
+  background-color: #32b2d7;
   color: white;
   border-top-left-radius: 0;
 }
 
 .chatGptMessageContent {
-  background-color: #EDEDED;
+  background-color: #ededed;
   color: #222;
   border-top-right-radius: 0;
 }
@@ -204,7 +209,7 @@ h1 {
 }
 
 .askButton {
-  background-color: #1877F2;
+  background-color: #32b2d7;
   color: white;
   font-size: 16px;
   padding: 8px 16px;
@@ -216,7 +221,7 @@ h1 {
 }
 
 .askButton:hover {
-  background-color: #145CB3;
+  background-color: #32b2d7;
 }
 
 @media (max-width: 480px) {
@@ -232,7 +237,6 @@ h1 {
   right: 24px;
   z-index: 1000;
 }
-
 
 .messageBox {
   padding: 16px;

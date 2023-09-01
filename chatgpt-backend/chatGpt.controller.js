@@ -29,8 +29,11 @@ const askToChatGpt = async function (req, res) {
 
 const _createOpenAIInstance = async () => {
   const conf = await new Configuration({
+    organization: "org-OP5JXiVxZNVTStge2YzMXA6N",
     apiKey: process.env.CHATGPT_TOKEN,
+    
   });
+  console.log("apikeyfunc");
   return await new OpenAIApi(conf);
 };
 
